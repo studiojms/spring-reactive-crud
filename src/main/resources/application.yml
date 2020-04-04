@@ -1,0 +1,6 @@
+spring:
+  r2dbc:
+    initialization-mode: always
+    password: password
+    url: r2dbc:postgresql://localhost/dev
+    username: dev
