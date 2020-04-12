@@ -2,31 +2,14 @@ package com.studiojms.springreactivecrud.controller;
 
 import com.studiojms.springreactivecrud.model.Category;
 import com.studiojms.springreactivecrud.service.CategoryService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/categories")
-@RequiredArgsConstructor
-public class CategoryController {
+public class CategoryController extends AbstractCrudController<Category, Long> {
 
-    private final CategoryService categoryService;
-
-    @GetMapping
-    public Flux<Category> index() {
-        return categoryService.findAll();
+    protected CategoryController(CategoryService categoryService) {
+        super(categoryService);
     }
-
-    @PostMapping
-    public Mono<Category> create(@RequestBody Category category) {
-        return categoryService.save(category);
-    }
-
-    @GetMapping("/{id}")
-    public Mono<Category> get(@PathVariable("id") Long id) {
-        return categoryService.findById(id);
-    }
-
 }

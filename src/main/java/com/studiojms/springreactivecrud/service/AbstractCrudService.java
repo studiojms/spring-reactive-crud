@@ -25,6 +25,18 @@ public abstract class AbstractCrudService<T, ID> {
         return repository.saveAll(objectsToSave);
     }
 
+    public <S extends T> Mono<S> update(ID id, S objectToSave) {
+        final Mono<Boolean> exists = existsById(id);
+
+        return exists.flatMap(val -> {
+            if (val) {
+                return repository.save(objectToSave);
+            } else {
+                throw new IllegalArgumentException(String.format("Entity with id %s not found", id));
+            }
+        });
+    }
+
     public Mono<T> findById(ID id) {
         return repository.findById(id);
     }
